@@ -1,0 +1,22 @@
+{
+    "name": "dakodig/yii2-indo-formater",
+    "description": "Indonesia Formater Date Time dan Currency",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","formater indonesia","helper"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ade Priyanto",
+            "email": "mr.adepriyanto@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "yiisoft/yii2": "~2.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "dakodig\\yii2indoformater\\": ""
+        }
+    }
+}
