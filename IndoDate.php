@@ -12,11 +12,11 @@ class IndoDate extends Model
         setlocale(LC_ALL, 'id');
     }
 
-    public static function now()
+    public static function now($format='Y-m-d H:i:s')
     {
         $datetime = new \DateTime();
         $datetime->getTimestamp();
-        return $datetime->format("Y-m-d H:i:s");
+        return $datetime->format($format);
     }
 
     public static function create($datetime,$format = 'Y-m-d H:i:s')
