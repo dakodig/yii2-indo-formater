@@ -2,6 +2,7 @@
 
 namespace dakodig\yii2indoformater;
 
+use Yii;
 use yii\base\Component;
 
 class IndoCurrency extends Component
@@ -12,7 +13,7 @@ class IndoCurrency extends Component
     public $tn = ['Sepuluh', 'Sebelas', 'Dua Belas', 'Tiga Belas', 'Empat Belas', 'Lima Belas', 'Enam Belas', 'Tujuh Belas', 'Delapan Belas', 'Sembilan Belas'];
     public $tw = ['Dua Puluh', 'Tiga Puluh', 'Empat Puluh', 'Lima Puluh', 'Enam Puluh', 'Tujuh Puluh', 'Delapan Puluh', 'Sembilan Puluh'];
 
-    public function Rupiah($value) {
+    public function Terbilang($value) {
         $result = '';
         $vr = explode('.', $value);
         $vrKoma = empty($vr[1]) ? '' : (string) ((strlen($vr[1]) == 1) ? $vr[1] . '0' : $vr[1]);
@@ -80,6 +81,15 @@ class IndoCurrency extends Component
         }
 
         return $result;
+    }
+
+    public function setCurrency($value,$noKoma='0') {
+        $x = empty($value)?'0,00':Yii::$app->formatter->asCurrency($value, 'Rp.');
+        $xy = str_replace('Rp.', '', $x);
+        if($noKoma == '1') {
+            $xy = str_replace(',00','',$xy);
+        }
+        return $xy;
     }
 
 }
