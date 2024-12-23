@@ -15,7 +15,8 @@ class IndoDate extends Model
     public static function now()
     {
         $datetime = new \DateTime();
-        return $datetime->getTimestamp();
+        $datetime->getTimestamp();
+        return $datetime->format("Y-m-d H:i:s");
     }
 
     public static function create($datetime,$format = 'Y-m-d H:i:s')
