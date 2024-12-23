@@ -36,13 +36,13 @@ class IndoDate extends Model
             }else if(preg_match('/[-]/', $datetime) && !preg_match('/[ ]/', $datetime)) {
                 $exp = explode("-", $datetime);
                 if(count($exp)==2){
-                    $result = $datetime->setDate($exp[0], $exp[1])->format($format);
+                    $result = $datetime->setDate($exp[0], $exp[1],1)->format($format);
                 }else{
                     $result = $datetime->setDate($exp[0], $exp[1],$exp[2])->format($format);
                 }
             }
         }else{
-            $result = 'error format input';
+            $result = $datetime->setDate($datetime)->format($format);
         }
 
         return $result;
