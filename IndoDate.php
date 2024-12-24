@@ -6,10 +6,38 @@ use yii\base\Model;
 
 class IndoDate extends Model
 {
+    private static $month_en_to_indo =[
+        ''=>'',
+        'January'=>'Januari',
+        'February'=>'Februari',
+        'March'=>'Maret',
+        'April'=>'April',
+        'May'=>'Mei',
+        'June'=>'Juni',
+        'July'=>'Juli',
+        'August'=>'Agustus',
+        'September'=>'September',
+        'October'=>'Oktober',
+        'November'=>'November',
+        'December'=>'Desember',
+        'Jan'=>'Jan',
+        'Feb'=>'Feb',
+        'Mar'=>'Mar',
+        'Apr'=>'Apr',
+        'May'=>'Mei',
+        'Jun'=>'Jun',
+        'Jul'=>'Jul',
+        'Aug'=>'Agu',
+        'Sep'=>'Sep',
+        'Oct'=>'Okt',
+        'Nov'=>'Nov',
+        'Dec'=>'Des',
+    ];
+
     public function __construct($config = [])
     {
         date_default_timezone_set("Asia/Jakarta");
-        setlocale(LC_ALL, 'id');
+        setlocale(LC_ALL, "id_ID.UTF-8");
     }
 
     public static function now($format='Y-m-d H:i:s')
@@ -21,28 +49,36 @@ class IndoDate extends Model
 
     public static function create($datetime,$format = 'Y-m-d H:i:s')
     {
-        $datetime = new \DateTime();
-        if(preg_match('/[ ]/', $datetime)==1) {
-            if(preg_match('/[- :]/', $datetime)==1) {
+        $detime = new \DateTime($datetime);
+        if(preg_match('/F/',$format)){
+            $search = $detime->format('F');
+        }else if(preg_match('/M/',$format)){
+            $search = $detime->format('M');
+        }else{
+            $search = null;
+        }
+
+        if(preg_match('/[- :]/', (string)$datetime)) {
+            if(preg_match('/[ ]/', (string)$datetime)) {
                 $exp = explode(" ", $datetime);
                 if (count($exp) == 1) {
                     $exp1 = explode("-", $exp[0]);
-                    $result = $datetime->setDate($exp1[0], $exp1[1], $exp1[2])->format($format);
+                    $result = str_replace($search,self::$month_en_to_indo[$search],$detime->setDate($exp1[0], $exp1[1], $exp1[2])->format($format));
                 } else if (count($exp) > 1) {
                     $exp1 = explode("-", $exp[0]);
                     $exp2 = $exp[1];
-                    $result = $datetime->setDate($exp1[0], $exp1[1], $exp1[2])->format($format) . ' ' . $exp2;
+                    $result = str_replace($search,self::$month_en_to_indo[$search],$detime->setDate($exp1[0], $exp1[1], $exp1[2])->format($format));
                 }
-            }else if(preg_match('/[-]/', $datetime)==1 && preg_match('/[ ]/', $datetime)!=1) {
+            }else if(preg_match('/[-]/', (string)$datetime) && !preg_match('/[ ]/', (string)$datetime)) {
                 $exp = explode("-", $datetime);
                 if(count($exp)==2){
-                    $result = $datetime->setDate($exp[0], $exp[1],1)->format($format);
+                    $result = str_replace($search,self::$month_en_to_indo[$search],$detime->setDate($exp[0], $exp[1], 1)->format($format));
                 }else{
-                    $result = $datetime->setDate($exp[0], $exp[1],$exp[2])->format($format);
+                    $result = str_replace($search,self::$month_en_to_indo[$search],$detime->setDate($exp[0], $exp[1],$exp[2])->format($format));
                 }
             }
         }else{
-            $result = $datetime->setDate($datetime)->format($format);
+            $result = $detime->setDate($datetime,1,1)->format($format);
         }
 
         return $result;
