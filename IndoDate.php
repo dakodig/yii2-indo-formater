@@ -104,6 +104,7 @@ class IndoDate extends Model
                 $datetime = new \DateTime();
                 $nextDate = $datetime->setDate($exp[0], $exp[1], $exp[2])->sub(\DateInterval::createFromDateString($interval));
                 $nextDate->format($format);
+                return $nextDate;
             } else {
                 echo 'Maaf, Format tanggal salah!';
             }
