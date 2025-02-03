@@ -95,4 +95,20 @@ class IndoDate extends Model
 
         return $result;
     }
+
+    public static function addDate($fromDate, $interval = '1 days', $format = 'Y-m-d')
+    {
+        if (!empty($fromDate)) {
+            if (preg_match('/[-]/', (string)$fromDate)) {
+                $exp = explode("-", $fromDate);
+                $datetime = new \DateTime();
+                $nextDate = $datetime->setDate($exp[0], $exp[1], $exp[2])->sub(\DateInterval::createFromDateString($interval));
+                $nextDate->format($format);
+            } else {
+                echo 'Maaf, Format tanggal salah!';
+            }
+        } else {
+            echo 'Maaf, tanggal asal belum diisi!';
+        }
+    }
 }
