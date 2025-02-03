@@ -102,9 +102,10 @@ class IndoDate extends Model
             if (preg_match('/[-]/', (string)$fromDate)) {
                 $exp = explode("-", $fromDate);
                 $datetime = new \DateTime();
-                $nextDate = $datetime->setDate($exp[0], $exp[1], $exp[2])->sub(\DateInterval::createFromDateString($interval));
-                $nextDate->format($format);
-                return $nextDate;
+                $nextDate = $datetime->setDate($exp[0], $exp[1], $exp[2])
+                    ->add(\DateInterval::createFromDateString($interval));
+                $result = $nextDate->format($format);
+                return $result;
             } else {
                 echo 'Maaf, Format tanggal salah!';
             }
